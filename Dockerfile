@@ -3,7 +3,7 @@
 # and run the container
 
 # Start with a base image
-FROM golang:1.21 AS base
+FROM --platform=linux/arm64 golang:1.21 AS base
 
 # Set the working directory inside the container
 WORKDIR /app
