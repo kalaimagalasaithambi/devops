@@ -38,3 +38,21 @@ jobs:
            fi
            echo "dev_env=$git_env" >> $GITHUB_OUTPUT
            echo "Your DEV Environment: $git_env"
+  test:
+      name: Unit Test
+      needs: compile
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout Application Code
+          uses: actions/checkout@v4
+          with:
+            ref: ${{ github.head_ref }}
+        
+        - name: Checkout reusable code
+          uses: actions/checkout@v4
+          with: 
+            repository: ehteshamkhaja/enterprise-reusable-workflows
+            ref: feature/cicd-publish
+            path: reusable-workflows
+            token: ${{ secrets.DEVOPS_WORKFLOW_TOKEN }}
+
