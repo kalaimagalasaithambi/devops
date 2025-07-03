@@ -8,4 +8,22 @@ permissions:
   pull-requests: write
 
 on:
-  workflow_call: 
+  workflow_dispatch:
+jobs: 
+
+  identify_dev_environment:
+     if: ${{ startsWith(github.ref, 'refs/heads/release') }}
+     runs-on: ubuntu-latest
+     outputs:
+       dev_env: ${{ steps.set-env.outputs.dev_env }}
+     steps:
+       - name: Set environment variable based on branch name
+         id: set-env
+         run: |
+           if [[ "${{ github.ref }}" == refs/heads/release/* ]]; then
+             git_env=dev1
+           elif [[ "${{ github.ref }}" == refs/heads/release-sq*/* ]]; then
+            git_env=dev-$(echo "${{ github.ref }}" | sed -E 's|refs/heads/release-([^/]+)/.*|\1|')
+           fi
+           echo "dev_env=$git_env" >> $GITHUB_OUTPUT
+           echo "Your DEV Environment: $git_env"
