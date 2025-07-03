@@ -1,0 +1,11 @@
+name: CD Orchestrator Deployment
+
+permissions:
+  id-token: write
+  contents: write
+  security-events: write
+  actions: read
+  pull-requests: write
+
+on:
+  workflow_call: 
